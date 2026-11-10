@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LevelPlay</title>
+  <meta name="description" content="曲ごとの音量差を自動でそろえて再生する音楽プレイヤー">
+  <meta name="theme-color" content="#1a5c8d">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app" id="app">
+    <header class="now">
+      <div class="now-title" id="nowTitle">再生していません</div>
+      <div class="now-sub" id="nowSub">準備完了</div>
+      <div class="seek">
+        <span class="time" id="posText">0:00</span>
+        <input type="range" id="seek" min="0" max="1000" value="0" step="1" aria-label="再生位置" disabled>
+        <span class="time" id="durText">0:00</span>
+      </div>
+      <div class="transport">
+        <button type="button" id="btnPrev" class="icon-btn" title="前へ" aria-label="前へ">⏮</button>
+        <button type="button" id="btnPlay" class="icon-btn primary" title="再生/一時停止" aria-label="再生">▶</button>
+        <button type="button" id="btnStop" class="icon-btn" title="停止" aria-label="停止">⏹</button>
+        <button type="button" id="btnNext" class="icon-btn" title="次へ" aria-label="次へ">⏭</button>
+        <button type="button" id="btnRepeat" class="pill" title="リピートの切り替え">リピート: なし</button>
+      </div>
+    </header>
+
+    <section class="controls">
+      <label class="norm">
+        <input type="checkbox" id="chkNormalize" checked>
+        <span>音量自動補正（ReplayGain 方式）</span>
+      </label>
+      <label class="field">目標
+        <select id="selTarget" aria-label="目標ラウドネス">
+          <option value="-11">-11 LUFS</option>
+          <option value="-14">-14 LUFS</option>
+          <option value="-16">-16 LUFS</option>
+          <option value="-18">-18 LUFS</option>
+          <option value="-23">-23 LUFS</option>
+        </select>
+      </label>
+      <label class="field">速度
+        <select id="selSpeed" aria-label="再生速度">
+          <option value="0.5">0.5x</option>
+          <option value="0.75">0.75x</option>
+          <option value="1">等倍 (1.0x)</option>
+          <option value="1.125">1.125x</option>
+          <option value="1.25">1.25x</option>
+          <option value="1.5">1.5x</option>
+        </select>
+      </label>
+      <label class="field vol">音量
+        <input type="range" id="volume" min="0" max="100" value="100" aria-label="音量">
+        <span id="volText" class="num">100%</span>
+      </label>
+    </section>
+
+    <main class="queue" id="dropZone">
+      <div class="queue-head">
+        <span id="countText">0 曲</span>
+        <span class="privacy">曲はこのブラウザに保存されません。閉じると一覧は空になります。</span>
+      </div>
+      <div class="list-wrap">
+        <ol class="list" id="list" tabindex="0" aria-label="再生キュー"></ol>
+        <div class="empty" id="empty">
+          <p>音楽ファイルやフォルダをここにドラッグ&amp;ドロップ<br>または「ファイルを追加」してください。</p>
+          <p class="formats">対応形式: MP3 / WAV / FLAC / AAC / M4A / Ogg / Opus</p>
+        </div>
+      </div>
+      <div class="drop-hint" id="dropHint">ここにドロップして追加</div>
+    </main>
+
+    <footer class="actions">
+      <button type="button" id="btnAddFiles" class="btn">ファイルを追加</button>
+      <button type="button" id="btnAddFolder" class="btn">フォルダを追加</button>
+      <span class="spacer"></span>
+      <button type="button" id="btnRemove" class="btn" disabled>選択を削除</button>
+      <button type="button" id="btnClear" class="btn" disabled>全クリア</button>
+      <input type="file" id="fileInput" multiple hidden
+        accept=".mp3,.wav,.flac,.aac,.m4a,.ogg,.oga,.opus,audio/*">
+      <input type="file" id="folderInput" webkitdirectory multiple hidden>
+    </footer>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </div>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

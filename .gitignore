@@ -1,0 +1,4 @@
+# 検証用の音源（ffmpeg で再生成できる。公開サイトには含めない）
+test-fixtures/
+# Claude Code のローカル設定
+.claude/
